@@ -1,16 +1,7 @@
-#!/bin/sh
-#SBATCH --job-name=problem_set_03 # Job name
-#SBATCH --mail-type=ALL # Mail events (NONE, BEGIN, END, FAIL, ALL)
-#SBATCH --mail-user=moeinraja@ufl.edu # Where to send mail
-#SBATCH --nodes=1 # Use one node
-#SBATCH --cpus-per-task=4 # Number of CPU cores per task
-#SBATCH --ntasks=1 # Run a single task
-#SBATCH --mem=10gb # Memory limit
-#SBATCH --time=80:00:00 # Time limit hrs:min:sec
-#SBATCH --output=problem_set_03.out # Standard output and error log
-#SBATCH --account=baer --qos=baer
+#!/usr/bin/env python3
 
-# I wrote them using Spyder(Python3.7). For runing them, just copy and paste them in Spyder.
+
+# I wrote them using Spyder(Python3.7). For runing them, copy and paste them in Spyder.
 
 #Problem 1 (4 pts):
 
