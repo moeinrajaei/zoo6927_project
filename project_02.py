@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 df=pd.read_csv("/ufrc/zoo6927/share/moeinraja/project_02/sequencing_data.csv")
 my_cols = set(df.columns)
-my_cols.remove('chromosome') # removing the 'chromosome' column
+my_cols.remove('chromosome')	# removing the 'chromosome' column
 my_cols.remove('start')			# removing the 'start' column
 my_cols.remove('end')			# removing the 'end' column			
 my_cols = list(my_cols)
@@ -32,7 +32,7 @@ my_corrs = get_corrs(df2)
 def print_correlation():
     print('The correlation between avg & ref is ',(my_corrs[('avg','ref')]))
     print('The correlation between avg & test is ',(my_corrs[('avg','test')]))
-    print('The correlation between test & ref is ',(my_corrs[('ref','test')]))
+    print('The correlation between test & ref is ',(my_corrs[('test','ref')]))
 
 print_correlation()
 
