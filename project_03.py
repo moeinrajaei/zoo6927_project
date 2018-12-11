@@ -8,7 +8,7 @@
 
 
 cd /ufrc/zoo6927/share/moeinraja/project_03
-module laoad python
+module load python
 python3
 
 
