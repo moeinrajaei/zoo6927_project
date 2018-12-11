@@ -7,7 +7,7 @@
 #2- Where is the position of each cnv in the database? 
 
 
-
+cd /ufrc/zoo6927/share/moeinraja/project_03
 module laoad python
 python3
 
@@ -79,58 +79,49 @@ while True:
     if i == len(data['ID'].tolist()):
         print('done!')
         break
+
+quit()
 		
 ### Checking to see if the data were added or not:
 
 module load sqlite
 sqlite3
-sqlite> .open cnv.sqlite
-sqlite> SELECT COUNT(*) FROM reads;
+.open cnv.sqlite
+SELECT COUNT(*) FROM reads;
 200575
-sqlite> SELECT COUNT(*) FROM stats;
+SELECT COUNT(*) FROM stats;
 200575
-
 
 ### Question 1:
 ## How many cnvs are there in the database? 
 
-SELECT COUNT (*) FROM reads WHERE chromosome = 'MtDNA';
 SELECT ID, copynumbervariants FROM stats WHERE copynumbervariants = (SELECT Max(copynumbervariants) FROM stats);
 
-query1 = select([reads.c.ID, reads.c.chromosome]).where(reads.c.chromosome = 'MtDNA')
-result = conn.execute(query1)
-for row in result:
-    print(row)
 
-
-	
 ### Question 2: 
 ## Where is the position of each cnv in the database?
 # Since the column's name are not defined well, I will rename the "ID" and "position" columns from reads table to "IDR" and "rposition" respectively.
 
-module load sqlite
-sqlite3
-sqlite> .open cnv.sqlite
-sqlite> PRAGMA foreign_keys=off;
-sqlite> BEGIN TRANSACTION;
-sqlite> ALTER TABLE reads RENAME TO _reads_old;            # rename our existing reads table to _reads_old
-sqlite> CREATE TABLE reads                                 # create the new reads table
-   ...> ("IDR" INTEGER PRIMARY KEY NOT NULL,
-   ...> chromosome VARCHAR,
-   ...> start INTEGER,
-   ...> "end" INTEGER,
-   ...> test INTEGER,
-   ...> ref INTEGER,
-   ...> rposition INTEGER
-   ...> );
-sqlite> INSERT INTO reads ("IDR", chromosome, start, "end", test, ref, rposition)          # insert all of the data from the _reads_old table into the read table
-   ...> SELECT "ID", chromosome, start, "end", test, ref, position
-   ...> FROM _reads_old;
-sqlite> COMMIT;
-sqlite> PRAGMA foreign_keys=on;
+PRAGMA foreign_keys=off;
+BEGIN TRANSACTION;
+ALTER TABLE reads RENAME TO _reads_old;            # rename our existing reads table to _reads_old
+CREATE TABLE reads                                 # create the new reads table
+ ("IDR" INTEGER PRIMARY KEY NOT NULL,
+ chromosome VARCHAR,
+ start INTEGER,
+ "end" INTEGER,
+ test INTEGER,
+ ref INTEGER,
+ );
+INSERT INTO reads ("IDR", chromosome, start, "end", test, ref, rposition)          # insert all of the data from the _reads_old table into the read table
+SELECT "ID", chromosome, start, "end", test, ref, position
+FROM _reads_old;
+COMMIT;
+PRAGMA foreign_keys=on;
 
 # finding the position of each cnv:
-select chromosome,position,copynumbervariants FROM reads JOIN stats ON ID=IDR WHERE copynumbervariants>0 ORDER BY ID;
+
+SELECT chromosome,position,copynumbervariants FROM reads JOIN stats ON ID=IDR WHERE copynumbervariants>0 ORDER BY ID;
 
 
 #
